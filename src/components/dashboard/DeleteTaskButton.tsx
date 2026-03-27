@@ -6,21 +6,23 @@ import { Trash2 } from 'lucide-react'
 
 export default function DeleteTaskButton({ taskId }: { taskId: string }) {
   const [open, setOpen] = useState(false)
+  const [isDeleted, setIsDeleted] = useState(false)
   const [isPending, startTransition] = useTransition()
 
   const handleDelete = () => {
+    setIsDeleted(true) // Optimistic hide immediately
+    setOpen(false)
     startTransition(() => {
       deleteTask(taskId)
-      // Otomatis tertutup saat komponen di-unmount, tapi jaga-jaga kita set false
-      setOpen(false)
     })
   }
 
   return (
     <>
+      {isDeleted && <style>{`#task-row-${taskId} { display: none !important; }`}</style>}
       <button
         onClick={() => setOpen(true)}
-        disabled={isPending}
+        disabled={isPending || isDeleted}
         title="Hapus tugas"
         className={`w-8 h-8 rounded-full flex items-center justify-center 
           text-[#C7C7CC] hover:text-red-500 hover:bg-red-50 

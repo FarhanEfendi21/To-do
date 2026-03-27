@@ -39,6 +39,10 @@ export default async function DashboardPage() {
   const activeTasks = tasks?.filter((t) => !t.is_completed) ?? []
   const remaining = activeTasks.length
 
+  const rawName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Mahasiswa'
+  // Capitalize first letter and get only the first word for greeting
+  const firstName = rawName.split(' ')[0].charAt(0).toUpperCase() + rawName.split(' ')[0].slice(1)
+
   async function logout() {
     'use server'
     const supabase = await createClient()
@@ -53,7 +57,10 @@ export default async function DashboardPage() {
       <header className="sticky top-0 z-10 bg-white/70 backdrop-blur-2xl border-b border-[#F0F0F0]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Image src="/Logo.png" alt="Logo" width={48} height={48} className="w-auto h-auto object-contain drop-shadow-sm" priority />
+            <Image src="/Logo.png" alt="Logo" width={44} height={44} className="object-contain drop-shadow-sm" priority />
+            <span className="font-bold text-[16px] tracking-tight text-[#111111]">
+              MariMenugas
+            </span>
           </div>
           <form action={logout}>
             <button
@@ -73,7 +80,7 @@ export default async function DashboardPage() {
         <section className="flex items-start justify-between gap-4 pb-2">
           <div className="flex flex-col gap-1.5 pt-1">
             <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-[#111111]">
-              Tugas Saya
+              Hi, {firstName}!
             </h1>
             <p className="text-[14px] sm:text-[15px] text-[#888888] pr-2">
               {remaining > 0
@@ -122,7 +129,7 @@ export default async function DashboardPage() {
               const c = categoryLabel[task.category] ?? categoryLabel.mata_kuliah
               return (
                 <div
-                  key={task.id}
+                  id={`task-row-${task.id}`}
                   className={`group bg-white rounded-[16px] border px-4 sm:px-5 py-3.5 sm:py-4 flex gap-3 sm:gap-4 transition-all duration-200 shadow-[0_2px_8px_-4px_rgba(0,0,0,0.02)] border-[#F0F0F0] hover:border-[#E0E0E0] hover:shadow-[0_4px_16px_-4px_rgba(0,0,0,0.04)]`}
                 >
                   {/* Custom Checkbox */}

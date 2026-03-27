@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import SplashScreen from "@/components/ui/SplashScreen";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -49,6 +50,7 @@ export default function RootLayout({
   return (
     <html lang="id" className={`${plusJakartaSans.variable} h-full`}>
       <body className="min-h-full flex flex-col font-[var(--font-plus-jakarta)] antialiased">
+        <SplashScreen />
         {children}
       </body>
     </html>

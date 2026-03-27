@@ -16,11 +16,10 @@ export default async function RegisterPage({
       {/* Card */}
       <div className="w-full max-w-sm bg-white rounded-[20px] border border-[#E5E5EA] shadow-sm overflow-hidden">
 
-        {/* Header */}
         <div className="flex flex-col items-center pt-8 sm:pt-10 pb-6 sm:pb-8 px-6 sm:px-8 border-b border-[#E5E5EA]">
-          <Image src="/Logo.png" alt="Logo" width={88} height={88} className="object-contain mb-4 drop-shadow-sm" priority />
-          <h1 className="text-xl font-bold text-[#1C1C1E] tracking-tight">
-            Buat Akun Baru
+          <Image src="/Logo.png" alt="Logo" width={88} height={88} className="object-contain drop-shadow-sm" priority />
+          <h1 className="text-[20px] font-bold text-[#1C1C1E] tracking-tight">
+            MariMenugas
           </h1>
           <p className="text-sm text-[#8E8E93] mt-1 text-center">
             Daftar untuk mulai mengelola tugasmu
@@ -38,6 +37,23 @@ export default async function RegisterPage({
 
           <div className="flex flex-col gap-1.5">
             <label
+              htmlFor="name"
+              className="text-xs font-semibold text-[#1C1C1E] uppercase tracking-wider"
+            >
+              Nama
+            </label>
+            <Input
+              id="name"
+              name="name"
+              type="text"
+              placeholder="John Doe"
+              required
+              className="h-11 rounded-[10px] border-[#E5E5EA] bg-[#F2F2F7] text-[#1C1C1E] placeholder:text-[#C7C7CC] text-sm focus-visible:ring-[#007AFF] focus-visible:ring-2 focus-visible:border-transparent"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label
               htmlFor="email"
               className="text-xs font-semibold text-[#1C1C1E] uppercase tracking-wider"
             >
@@ -47,7 +63,7 @@ export default async function RegisterPage({
               id="email"
               name="email"
               type="email"
-              placeholder="mahasiswa@kampus.ac.id"
+              placeholder="user@gmail.com"
               required
               className="h-11 rounded-[10px] border-[#E5E5EA] bg-[#F2F2F7] text-[#1C1C1E] placeholder:text-[#C7C7CC] text-sm focus-visible:ring-[#007AFF] focus-visible:ring-2 focus-visible:border-transparent"
             />

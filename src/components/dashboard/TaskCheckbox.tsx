@@ -1,6 +1,6 @@
 'use client'
 
-import { useTransition } from 'react'
+import { useTransition, useOptimistic } from 'react'
 import { toggleTaskStatus } from '@/app/dashboard/actions'
 
 export default function TaskCheckbox({
@@ -11,10 +11,18 @@ export default function TaskCheckbox({
   isCompleted: boolean
 }) {
   const [isPending, startTransition] = useTransition()
+  
+  // Instant visual check for mobile responsiveness
+  const [optimisticCompleted, setOptimisticCompleted] = useOptimistic<boolean, boolean>(
+    isCompleted,
+    (_, newStatus) => newStatus
+  )
 
   const handleToggle = () => {
     startTransition(() => {
-      toggleTaskStatus(id, isCompleted)
+      const current = optimisticCompleted
+      setOptimisticCompleted(!current)
+      toggleTaskStatus(id, current)
     })
   }
 
@@ -22,15 +30,15 @@ export default function TaskCheckbox({
     <button
       id={id}
       role="checkbox"
-      aria-checked={isCompleted}
+      aria-checked={optimisticCompleted}
       onClick={handleToggle}
       disabled={isPending}
       className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200
-        ${isCompleted
+        ${optimisticCompleted
           ? 'bg-[#111111] border-[#111111]'
           : 'bg-white border-[#C7C7CC] hover:border-[#111111]'
         }
-        ${isPending ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer active:scale-90'}
+        ${isPending ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer active:scale-95'}
       `}
     >
       {isCompleted && (

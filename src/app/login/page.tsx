@@ -16,10 +16,12 @@ export default async function LoginPage({
       {/* Card */}
       <div className="w-full max-w-sm bg-white rounded-[20px] border border-[#E5E5EA] shadow-sm overflow-hidden">
 
-        {/* Header */}
         <div className="flex flex-col items-center pt-8 sm:pt-10 pb-6 sm:pb-8 px-6 sm:px-8 border-b border-[#E5E5EA]">
-          <Image src="/Logo.png" alt="Logo" width={88} height={88} className="object-contain mb-3 drop-shadow-sm" priority />
-          <p className="text-sm text-[#8E8E93] mt-2 text-center">
+          <Image src="/Logo.png" alt="Logo" width={88} height={88} className="object-contain drop-shadow-sm" priority />
+          <h1 className="text-[20px] font-bold text-[#1C1C1E] tracking-tight mb-1">
+            MariMenugas
+          </h1>
+          <p className="text-sm text-[#8E8E93] text-center">
             Masuk atau buat akun untuk melanjutkan
           </p>
         </div>
