@@ -1,4 +1,4 @@
-import { login } from './actions'
+import { login } from '@/lib/actions/auth'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Input } from '@/components/ui/input'

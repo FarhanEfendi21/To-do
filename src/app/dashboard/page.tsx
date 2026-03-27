@@ -17,7 +17,7 @@ const priorityLabel: Record<string, { label: string; color: string }> = {
 
 const categoryLabel: Record<string, { label: string; color: string }> = {
   mata_kuliah: { label: 'Mata Kuliah', color: 'text-blue-600 bg-blue-50 ring-1 ring-blue-100/50' },
-  praktikum:   { label: 'Praktikum',   color: 'text-teal-600 bg-teal-50 ring-1 ring-teal-100/50' },
+  praktikum: { label: 'Praktikum', color: 'text-teal-600 bg-teal-50 ring-1 ring-teal-100/50' },
 }
 
 export default async function DashboardPage() {
@@ -53,7 +53,7 @@ export default async function DashboardPage() {
       <header className="sticky top-0 z-10 bg-white/70 backdrop-blur-2xl border-b border-[#F0F0F0]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Image src="/Logo.png" alt="Logo" width={48} height={48} className="object-contain drop-shadow-sm" priority />
+            <Image src="/Logo.png" alt="Logo" width={48} height={48} className="w-auto h-auto object-contain drop-shadow-sm" priority />
           </div>
           <form action={logout}>
             <button
@@ -109,7 +109,7 @@ export default async function DashboardPage() {
           {!activeTasks || activeTasks.length === 0 ? (
             <div className="bg-white rounded-[20px] border border-[#F0F0F0] px-6 py-16 sm:px-8 sm:py-20 flex flex-col items-center justify-center text-center shadow-sm">
               <div className="w-16 h-16 rounded-full bg-[#F5F5F5] flex items-center justify-center mb-4">
-                <Image src="/Logo.png" alt="Empty" width={48} height={48} className="opacity-40 grayscale" />
+                <Image src="/Logo.png" alt="Empty" width={48} height={48} className="w-auto h-auto opacity-40 grayscale" />
               </div>
               <p className="text-[17px] font-medium text-[#111111] mb-1.5">GG Gaming Adick Adick!!!</p>
               <p className="text-[14px] text-[#888888] max-w-xs leading-relaxed">
@@ -147,8 +147,8 @@ export default async function DashboardPage() {
 
                     {/* Badges Container */}
                     <div className="flex items-center flex-wrap gap-2 mt-2">
-                       {/* Category Badge */}
-                       {c && (
+                      {/* Category Badge */}
+                      {c && (
                         <span className={`inline-flex items-center text-[10.5px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full ${c.color}`}>
                           {c.label}
                         </span>
@@ -162,13 +162,14 @@ export default async function DashboardPage() {
                       )}
 
                       {/* Deadline Badge */}
-                      {task.due_date && (
+                      {task.due_date && !isNaN(new Date(task.due_date).getTime()) && (
                         <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#777777] bg-[#F5F5F5] px-2 py-0.5 rounded-full border border-[#EAEAEA]">
                           <Calendar className="w-3 h-3 text-[#A0A0A0]" strokeWidth={2.5} />
                           {new Date(task.due_date).toLocaleDateString('id-ID', {
                             day: 'numeric',
                             month: 'short',
-                            year: new Date(task.due_date).getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined
+                            year: new Date(task.due_date).getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined,
+                            timeZone: 'UTC'
                           })}
                         </span>
                       )}

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { signup } from '@/app/login/actions'
+import { signup } from '@/lib/actions/auth'
 import { Input } from '@/components/ui/input'
 
 export default async function RegisterPage({

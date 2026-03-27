@@ -21,7 +21,7 @@ const priorities: { value: Priority; label: string; desc: string }[] = [
 
 const categories: { value: Category; label: string }[] = [
   { value: 'mata_kuliah', label: 'Mata Kuliah' },
-  { value: 'praktikum',   label: 'Praktikum' },
+  { value: 'praktikum', label: 'Praktikum' },
 ]
 
 export default function AddTaskModal() {

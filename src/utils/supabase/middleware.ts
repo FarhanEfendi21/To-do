@@ -2,61 +2,72 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function updateSession(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({
-    request,
-  })
+  try {
+    let supabaseResponse = NextResponse.next({
+      request,
+    })
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll()
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll()
+          },
+          setAll(cookiesToSet) {
+            // PERBAIKAN: Gunakan format objek { name, value } untuk request.cookies
+            cookiesToSet.forEach(({ name, value }) => {
+              request.cookies.set({ name, value })
+            })
+
+            supabaseResponse = NextResponse.next({
+              request,
+            })
+
+            // PERBAIKAN: Gunakan format objek untuk supabaseResponse.cookies
+            cookiesToSet.forEach(({ name, value, options }) => {
+              supabaseResponse.cookies.set({ name, value, ...options })
+            })
+          },
         },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
-          supabaseResponse = NextResponse.next({
-            request,
-          })
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          )
-        },
-      },
+      }
+    )
+
+    // PERBAIKAN: Bungkus getUser dengan try-catch
+    // Mencegah aplikasi crash (500) jika koneksi ke Supabase putus/timeout
+    let user = null;
+    try {
+      const { data } = await supabase.auth.getUser()
+      user = data.user
+    } catch (fetchError) {
+      console.error('⚠️ [Middleware] Gagal mengambil sesi Supabase:', fetchError)
+      // Jika error jaringan, biarkan user = null agar diarahkan ke login secara aman
     }
-  )
 
-  // Mengambil data pengguna saat ini
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+    const pathname = request.nextUrl.pathname
+    const isAuthPage = pathname === '/' || pathname.startsWith('/login') || pathname.startsWith('/register')
 
-  // PROTEKSI HALAMAN (Route Protection)
-  // Jika pengguna belum login dan mencoba mengakses rute selain /login atau /register
-  // maka otomatis redirect ke halaman /login
-  if (
-    !user &&
-    !request.nextUrl.pathname.startsWith('/login') &&
-    !request.nextUrl.pathname.startsWith('/register')
-  ) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/login'
-    return NextResponse.redirect(url)
+    // PROTEKSI HALAMAN
+    // Jika belum login dan bukan di halaman login/register
+    if (!user && !isAuthPage) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/login'
+      return NextResponse.redirect(url)
+    }
+
+    // Jika sudah login tapi mencoba ke halaman login/register
+    if (user && isAuthPage) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/dashboard'
+      return NextResponse.redirect(url)
+    }
+
+    return supabaseResponse
+
+  } catch (error) {
+    // Tangkapan error fatal tingkat atas agar JSON Next.js tidak rusak
+    console.error('⚠️ [Middleware] Fatal Error:', error)
+    return NextResponse.next({ request })
   }
-
-  // Jika pengguna SUDAH login tapi mencoba membuka halaman /login atau /register,
-  // arahkan mereka langsung ke /dashboard
-  if (
-    user &&
-    (request.nextUrl.pathname === '/' ||
-     request.nextUrl.pathname.startsWith('/login') ||
-     request.nextUrl.pathname.startsWith('/register'))
-  ) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/dashboard'
-    return NextResponse.redirect(url)
-  }
-
-  return supabaseResponse
 }
