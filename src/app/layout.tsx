@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import SplashScreen from "@/components/ui/SplashScreen";
-import { EtheralShadow } from "@/components/ui/etheral-shadow";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -50,22 +49,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className={`${plusJakartaSans.variable} h-full`}>
-      <body className="min-h-full flex flex-col font-[var(--font-plus-jakarta)] antialiased bg-[#FAFAFA]">
+      <body className="min-h-full flex flex-col font-[var(--font-plus-jakarta)] antialiased">
         <SplashScreen />
-        
-        {/* Global Ethereal Background */}
-        <div className="fixed inset-0 z-0 pointer-events-none opacity-60">
-          <EtheralShadow 
-            color="rgba(0, 0, 0, 0.1)"
-            animation={{ scale: 100, speed: 60 }}
-            noise={{ opacity: 0.3, scale: 1.2 }}
-            sizing="fill"
-          />
-        </div>
-
-        <div className="relative z-10 flex flex-col flex-1">
-          {children}
-        </div>
+        {children}
       </body>
     </html>
   );
