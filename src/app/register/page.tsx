@@ -11,7 +11,7 @@ export default async function RegisterPage({
   const params = await searchParams
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F2F2F7] items-center justify-center px-4 sm:px-6 py-12">
+    <div className="flex flex-col min-h-screen items-center justify-center px-4 sm:px-6 py-12 bg-transparent">
 
       {/* Card */}
       <div className="w-full max-w-sm bg-white rounded-[20px] border border-[#E5E5EA] shadow-sm overflow-hidden">

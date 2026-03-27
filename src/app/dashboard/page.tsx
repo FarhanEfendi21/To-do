@@ -51,7 +51,7 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] font-[var(--font-plus-jakarta)] text-[#111111]">
+    <div className="min-h-screen bg-transparent font-[var(--font-plus-jakarta)] text-[#111111]">
 
       {/* ── Minimalist Glass Header ── */}
       <header className="sticky top-0 z-10 bg-white/70 backdrop-blur-2xl border-b border-[#F0F0F0]">
