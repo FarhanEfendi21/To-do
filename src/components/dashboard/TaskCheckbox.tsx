@@ -1,6 +1,6 @@
 'use client'
 
-import { useTransition, useOptimistic } from 'react'
+import { useTransition, useOptimistic, useState } from 'react'
 import { toggleTaskStatus } from '@/app/dashboard/actions'
 
 export default function TaskCheckbox({
@@ -12,17 +12,17 @@ export default function TaskCheckbox({
 }) {
   const [isPending, startTransition] = useTransition()
   
-  // Instant visual check for mobile responsiveness
+  // Optimistic state for the actual data
   const [optimisticCompleted, setOptimisticCompleted] = useOptimistic<boolean, boolean>(
     isCompleted,
     (_, newStatus) => newStatus
   )
 
-  const handleToggle = () => {
+  const handleToggle = async () => {
+    // 1. Update UI instantly using startTransition + setOptimistic
     startTransition(() => {
-      const current = optimisticCompleted
-      setOptimisticCompleted(!current)
-      toggleTaskStatus(id, current)
+      setOptimisticCompleted(!optimisticCompleted)
+      toggleTaskStatus(id, optimisticCompleted)
     })
   }
 
@@ -32,18 +32,17 @@ export default function TaskCheckbox({
       role="checkbox"
       aria-checked={optimisticCompleted}
       onClick={handleToggle}
-      disabled={isPending}
-      className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200
+      className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200 cursor-pointer active:scale-90
         ${optimisticCompleted
           ? 'bg-foreground border-foreground'
           : 'bg-background border-muted-foreground/30 hover:border-foreground'
         }
-        ${isPending ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer active:scale-95'}
+        ${isPending ? 'opacity-80' : 'opacity-100'}
       `}
     >
-      {isCompleted && (
+      {optimisticCompleted && (
         <svg
-          className="w-3 h-3 text-background"
+          className="w-3 h-3 text-background animate-in zoom-in-50 duration-200"
           viewBox="0 0 12 10"
           fill="none"
           stroke="currentColor"
