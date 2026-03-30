@@ -73,12 +73,39 @@
   --radius: 0.75rem;                           /* 12px — Apple rounded corners */
 }
 
+.dark {
+  --background:        oklch(0.12 0 0);        /* #1C1C1E — Apple dark BG */
+  --foreground:        oklch(0.98 0 0);        /* #F2F2F7 — Apple dark label */
+  --card:              oklch(0.16 0 0);        /* #2C2C2E — Apple dark card */
+  --card-foreground:   oklch(0.98 0 0);
+  --popover:           oklch(0.16 0 0);
+  --popover-foreground: oklch(0.98 0 0);
+
+  --primary:           oklch(0.65 0.20 253);   /* slightly brighter blue for dark mode */
+  --primary-foreground: oklch(0.98 0 0);
+
+  --secondary:         oklch(0.20 0 0);        /* #3A3A3C — Apple dark secondary */
+  --secondary-foreground: oklch(0.98 0 0);
+
+  --muted:             oklch(0.20 0 0);
+  --muted-foreground:  oklch(0.65 0 0);        /* #98989D — Apple dark secondary label */
+
+  --accent:            oklch(0.25 0 0);
+  --accent-foreground: oklch(0.98 0 0);
+
+  --destructive:       oklch(0.55 0.22 27);
+
+  --border:            oklch(0.25 0 0);        /* #48484A — Apple dark separator */
+  --input:             oklch(0.20 0 0);
+  --ring:              oklch(0.65 0.20 253);
+}
+
 /* ---------------------------------------------------------------
    Global base styles — Apple HIG: no harsh outlines, smooth text
 --------------------------------------------------------------- */
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border transition-colors duration-300;
     /* Smooth outline like Apple focus rings */
     outline-color: oklch(0.56 0.19 253 / 50%);
   }

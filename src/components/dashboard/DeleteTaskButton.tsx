@@ -25,7 +25,7 @@ export default function DeleteTaskButton({ taskId }: { taskId: string }) {
         disabled={isPending || isDeleted}
         title="Hapus tugas"
         className={`w-8 h-8 rounded-full flex items-center justify-center 
-          text-[#C7C7CC] hover:text-red-500 hover:bg-red-50 
+          text-muted-foreground/40 hover:text-destructive hover:bg-destructive/10 
           opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-150
           disabled:opacity-40 disabled:cursor-not-allowed`}
       >
@@ -38,14 +38,14 @@ export default function DeleteTaskButton({ taskId }: { taskId: string }) {
           className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
           onClick={(e) => { if (e.target === e.currentTarget && !isPending) setOpen(false) }}
         >
-          <div className="w-full max-w-[320px] bg-white rounded-[24px] shadow-2xl overflow-hidden animate-in zoom-in-95 fade-in-20 duration-200">
+          <div className="w-full max-w-[320px] bg-card rounded-[24px] border border-border shadow-2xl overflow-hidden animate-in zoom-in-95 fade-in-20 duration-200">
             
             <div className="px-6 pt-8 pb-6 text-center">
-              <div className="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-5">
-                <Trash2 className="w-6 h-6 text-red-500" strokeWidth={2.2} />
+              <div className="w-14 h-14 rounded-full bg-destructive/10 flex items-center justify-center mx-auto mb-5">
+                <Trash2 className="w-6 h-6 text-destructive" strokeWidth={2.2} />
               </div>
-              <h2 className="text-[19px] font-semibold tracking-tight text-[#111111] mb-2">Hapus Tugas?</h2>
-              <p className="text-[14px] leading-relaxed text-[#888888]">
+              <h2 className="text-[19px] font-semibold tracking-tight text-foreground mb-2">Hapus Tugas?</h2>
+              <p className="text-[14px] leading-relaxed text-muted-foreground">
                 Tindakan ini tidak dapat dibatalkan.
               </p>
             </div>
@@ -54,17 +54,17 @@ export default function DeleteTaskButton({ taskId }: { taskId: string }) {
               <button
                 onClick={() => setOpen(false)}
                 disabled={isPending}
-                className="flex-1 h-11 rounded-[12px] bg-[#F2F2F7] text-[#111111] text-[15px] font-semibold hover:bg-[#E5E5EA] transition-colors disabled:opacity-50 active:scale-[0.98]"
+                className="flex-1 h-11 rounded-[12px] bg-secondary text-foreground text-[15px] font-semibold hover:bg-accent transition-colors disabled:opacity-50 active:scale-[0.98]"
               >
                 Batal
               </button>
               <button
                 onClick={handleDelete}
                 disabled={isPending}
-                className="flex-1 h-11 rounded-[12px] bg-red-500 text-white text-[15px] font-semibold hover:bg-red-600 transition-colors disabled:opacity-50 flex items-center justify-center active:scale-[0.98]"
+                className="flex-1 h-11 rounded-[12px] bg-destructive text-destructive-foreground text-[15px] font-semibold hover:opacity-90 transition-colors disabled:opacity-50 flex items-center justify-center active:scale-[0.98]"
               >
                 {isPending ? (
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
                 ) : (
                   'Hapus'
                 )}

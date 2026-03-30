@@ -52,7 +52,7 @@ export default function AddTaskModal() {
       {/* Trigger */}
       <button
         onClick={() => setOpen(true)}
-        className="flex items-center gap-1.5 h-11 px-4 rounded-[10px] bg-[#1C1C1E] text-white text-sm font-semibold hover:bg-black active:scale-[0.97] transition-all shadow-sm"
+        className="flex items-center gap-1.5 h-11 px-4 rounded-[10px] bg-foreground text-background text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all shadow-sm"
       >
         <PlusCircle className="w-4 h-4" strokeWidth={2} />
         Tambah
@@ -65,15 +65,15 @@ export default function AddTaskModal() {
           onClick={(e) => { if (e.target === e.currentTarget) setOpen(false) }}
         >
           {/* Sheet / Dialog */}
-          <div className="w-full sm:max-w-sm bg-white rounded-t-[24px] sm:rounded-[24px] border border-[#E5E5EA] shadow-2xl overflow-hidden pb-4 sm:pb-0 animate-in slide-in-from-bottom-8 sm:slide-in-from-bottom-4 fade-in-20 duration-300">
+          <div className="w-full sm:max-w-sm bg-card rounded-t-[24px] sm:rounded-[24px] border border-border shadow-2xl overflow-hidden pb-4 sm:pb-0 animate-in slide-in-from-bottom-8 sm:slide-in-from-bottom-4 fade-in-20 duration-300">
 
             {/* Header */}
-            <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-[#E5E5EA]">
-              <h2 className="text-base font-semibold text-[#1C1C1E]">Tambah Tugas</h2>
+            <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-border">
+              <h2 className="text-base font-semibold text-foreground">Tambah Tugas</h2>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="w-8 h-8 rounded-full bg-[#F2F2F7] flex items-center justify-center text-[#8E8E93] hover:bg-[#E5E5EA] transition-colors"
+                className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:bg-accent transition-colors"
               >
                 <X className="w-4 h-4" strokeWidth={2.5} />
               </button>
@@ -84,30 +84,30 @@ export default function AddTaskModal() {
 
               {/* Title */}
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-[#8E8E93]">
+                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Judul Tugas
                 </label>
                 <Input
                   name="title"
                   required
-                  className="h-11 rounded-[10px] border-[#E5E5EA] bg-[#F2F2F7] text-[#1C1C1E] placeholder:text-[#C7C7CC] text-sm focus-visible:ring-[#007AFF] focus-visible:border-transparent"
+                  className="h-11 rounded-[10px] border-border bg-secondary text-foreground placeholder:text-muted-foreground/50 text-sm focus-visible:ring-primary focus-visible:border-transparent"
                 />
               </div>
 
               {/* Category — segmented control */}
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-[#8E8E93]">
+                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Kategori
                 </label>
-                <div className="flex rounded-[10px] overflow-hidden border border-[#E5E5EA] bg-[#F2F2F7] p-0.5 gap-0.5">
+                <div className="flex rounded-[10px] overflow-hidden border border-border bg-secondary p-0.5 gap-0.5">
                   {categories.map(({ value, label }) => (
                     <button
                       key={value}
                       type="button"
                       onClick={() => setCategory(value)}
                       className={`flex-1 py-2 text-[13px] font-semibold rounded-[8px] transition-all ${category === value
-                        ? 'bg-white text-[#111111] shadow-[0_1px_3px_rgba(0,0,0,0.06)]'
-                        : 'text-[#8E8E93] hover:text-[#111111]'
+                        ? 'bg-card text-foreground shadow-[0_1px_3px_rgba(0,0,0,0.06)]'
+                        : 'text-muted-foreground hover:text-foreground'
                         }`}
                     >
                       {label}
@@ -118,18 +118,18 @@ export default function AddTaskModal() {
 
               {/* Description */}
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-[#8E8E93]">
+                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Catatan <span className="normal-case font-normal">(opsional)</span>
                 </label>
                 <Textarea
                   name="description"
-                  className="rounded-[10px] border-[#E5E5EA] bg-[#F2F2F7] text-[#1C1C1E] placeholder:text-[#C7C7CC] text-sm resize-none min-h-[76px] focus-visible:ring-[#007AFF] focus-visible:border-transparent"
+                  className="rounded-[10px] border-border bg-secondary text-foreground placeholder:text-muted-foreground/50 text-sm resize-none min-h-[76px] focus-visible:ring-primary focus-visible:border-transparent"
                 />
               </div>
 
               {/* Deadline (Tenggat Waktu) Custom Picker */}
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-[#8E8E93]">
+                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Tenggat Waktu <span className="normal-case font-normal">(opsional)</span>
                 </label>
 
@@ -137,16 +137,16 @@ export default function AddTaskModal() {
                   <PopoverTrigger asChild>
                     <button
                       type="button"
-                      className={`h-11 rounded-[10px] w-full border border-[#E5E5EA] bg-[#F2F2F7] px-3.5 flex items-center justify-between transition-colors focus-visible:ring-1 focus-visible:ring-[#111111] focus-visible:outline-none text-sm ${!date ? 'text-[#C7C7CC]' : 'text-[#1C1C1E] font-medium'
+                      className={`h-11 rounded-[10px] w-full border border-border bg-secondary px-3.5 flex items-center justify-between transition-colors focus-visible:ring-1 focus-visible:ring-primary focus-visible:outline-none text-sm ${!date ? 'text-muted-foreground/50' : 'text-foreground font-medium'
                         }`}
                     >
                       <span>
                         {date ? format(date, "d MMM yyyy", { locale: id }) : "Pilih tenggat waktu"}
                       </span>
-                      <CalendarIcon className="h-4 w-4 text-[#8E8E93]" />
+                      <CalendarIcon className="h-4 w-4 text-muted-foreground" />
                     </button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0 rounded-[16px] border border-[#E5E5EA] shadow-xl overflow-hidden bg-white" align="start">
+                  <PopoverContent className="w-auto p-0 rounded-[16px] border border-border shadow-xl overflow-hidden bg-card" align="start">
                     <Calendar
                       mode="single"
                       selected={date}
@@ -161,18 +161,18 @@ export default function AddTaskModal() {
 
               {/* Priority — segmented control style */}
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-[#8E8E93]">
+                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Prioritas
                 </label>
-                <div className="flex rounded-[10px] overflow-hidden border border-[#E5E5EA] bg-[#F2F2F7] p-0.5 gap-0.5">
+                <div className="flex rounded-[10px] overflow-hidden border border-border bg-secondary p-0.5 gap-0.5">
                   {priorities.map(({ value, label }) => (
                     <button
                       key={value}
                       type="button"
                       onClick={() => setPriority(value)}
                       className={`flex-1 py-2 text-xs font-semibold rounded-[8px] transition-all ${priority === value
-                        ? 'bg-white text-[#1C1C1E] shadow-sm'
-                        : 'text-[#8E8E93] hover:text-[#1C1C1E]'
+                        ? 'bg-card text-foreground shadow-sm'
+                        : 'text-muted-foreground hover:text-foreground'
                         }`}
                     >
                       {label}
@@ -185,7 +185,7 @@ export default function AddTaskModal() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full h-12 rounded-[12px] bg-[#1C1C1E] text-white text-sm font-semibold hover:bg-black active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed mt-1 shadow-sm"
+                className="w-full h-12 rounded-[12px] bg-foreground text-background text-sm font-semibold hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed mt-1 shadow-sm"
               >
                 {loading ? 'Menyimpan...' : 'Simpan Tugas'}
               </button>

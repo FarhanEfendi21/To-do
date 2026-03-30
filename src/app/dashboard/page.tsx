@@ -7,17 +7,19 @@ import TaskCheckbox from '@/components/dashboard/TaskCheckbox'
 import AddTaskModal from '@/components/dashboard/AddTaskModal'
 import DeleteTaskButton from '@/components/dashboard/DeleteTaskButton'
 import CompletedTasksModal from '@/components/dashboard/CompletedTasksModal'
+import { ModeToggle } from '@/components/ModeToggle'
+import { ThemeImage } from '@/components/ui/ThemeImage'
 
 // Gunakan warna pastel/lembut untuk label hierarki prioritas agar lebih minimalis
 const priorityLabel: Record<string, { label: string; color: string }> = {
-  high: { label: 'Penting', color: 'text-red-600 bg-red-50 ring-1 ring-red-100/50' },
-  medium: { label: 'Sedang', color: 'text-orange-600 bg-orange-50 ring-1 ring-orange-100/50' },
-  low: { label: 'Santai', color: 'text-emerald-600 bg-emerald-50 ring-1 ring-emerald-100/50' },
+  high: { label: 'Penting', color: 'text-destructive bg-destructive/10 ring-1 ring-destructive/20' },
+  medium: { label: 'Sedang', color: 'text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/30 ring-1 ring-orange-100/50 dark:ring-orange-900/30' },
+  low: { label: 'Santai', color: 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 ring-1 ring-emerald-100/50 dark:ring-emerald-900/30' },
 }
 
 const categoryLabel: Record<string, { label: string; color: string }> = {
-  mata_kuliah: { label: 'Mata Kuliah', color: 'text-blue-600 bg-blue-50 ring-1 ring-blue-100/50' },
-  praktikum: { label: 'Praktikum', color: 'text-teal-600 bg-teal-50 ring-1 ring-teal-100/50' },
+  mata_kuliah: { label: 'Mata Kuliah', color: 'text-primary bg-primary/10 ring-1 ring-primary/20' },
+  praktikum: { label: 'Praktikum', color: 'text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/30 ring-1 ring-teal-100/50 dark:ring-teal-900/30' },
 }
 
 export default async function DashboardPage() {
@@ -51,26 +53,38 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] font-[var(--font-plus-jakarta)] text-[#111111]">
+    <div className="min-h-screen bg-background font-[var(--font-plus-jakarta)] text-foreground">
 
       {/* ── Minimalist Glass Header ── */}
-      <header className="sticky top-0 z-10 bg-white/70 backdrop-blur-2xl border-b border-[#F0F0F0]">
+      <header className="sticky top-0 z-10 bg-background/70 backdrop-blur-2xl border-b border-border">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Image src="/Logo.png" alt="Logo" width={44} height={44} className="object-contain drop-shadow-sm" priority />
-            <span className="font-bold text-[16px] tracking-tight text-[#111111]">
+            <ThemeImage 
+              lightSrc="/Logo.png" 
+              darkSrc="/Logo-darkmode.png" 
+              alt="Logo" 
+              width={44} 
+              height={44} 
+              className="object-contain drop-shadow-sm" 
+              priority 
+            />
+            <span className="font-bold text-[16px] tracking-tight text-foreground">
               MariMenugas
             </span>
           </div>
-          <form action={logout}>
-            <button
-              type="submit"
-              className="flex items-center gap-2 text-[13px] font-medium text-[#888888] hover:text-[#111111] transition-colors"
-            >
-              <LogOut className="w-[15px] h-[15px]" strokeWidth={2} />
-              Keluar
-            </button>
-          </form>
+          <div className="flex items-center gap-2">
+            <ModeToggle />
+            <div className="w-px h-4 bg-border mx-1" />
+            <form action={logout}>
+              <button
+                type="submit"
+                className="flex items-center gap-2 text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <LogOut className="w-[15px] h-[15px]" strokeWidth={2} />
+                Keluar
+              </button>
+            </form>
+          </div>
         </div>
       </header>
 
@@ -79,10 +93,10 @@ export default async function DashboardPage() {
         {/* ── Title Area & Action ── */}
         <section className="flex items-start justify-between gap-4 pb-2">
           <div className="flex flex-col gap-1.5 pt-1">
-            <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-[#111111]">
+            <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">
               Hi, {firstName}!
             </h1>
-            <p className="text-[14px] sm:text-[15px] text-[#888888] pr-2">
+            <p className="text-[14px] sm:text-[15px] text-muted-foreground pr-2">
               {remaining > 0
                 ? `Fokus pada ${remaining} tugas yang belum selesai hari ini.`
                 : total > 0
@@ -98,13 +112,13 @@ export default async function DashboardPage() {
         {/* ── Slim Progress Indicator ── */}
         {total > 0 && (
           <section className="flex flex-col gap-2.5">
-            <div className="flex items-center justify-between text-[13px] font-medium text-[#888888]">
+            <div className="flex items-center justify-between text-[13px] font-medium text-muted-foreground">
               <span>Progress</span>
-              <span className="text-[#111111]">{done} / {total} Tugas</span>
+              <span className="text-foreground">{done} / {total} Tugas</span>
             </div>
-            <div className="h-1 w-full rounded-full bg-[#EAEAEA] overflow-hidden">
+            <div className="h-1 w-full rounded-full bg-secondary overflow-hidden">
               <div
-                className="h-full rounded-full bg-[#111111] transition-all duration-700 ease-out"
+                className="h-full rounded-full bg-primary transition-all duration-700 ease-out"
                 style={{ width: total > 0 ? `${(done / total) * 100}%` : '0%' }}
               />
             </div>
@@ -114,12 +128,19 @@ export default async function DashboardPage() {
         {/* ── Task List ── */}
         <section className="flex flex-col gap-3 sm:gap-3.5">
           {!activeTasks || activeTasks.length === 0 ? (
-            <div className="bg-white rounded-[20px] border border-[#F0F0F0] px-6 py-16 sm:px-8 sm:py-20 flex flex-col items-center justify-center text-center shadow-sm">
-              <div className="w-16 h-16 rounded-full bg-[#F5F5F5] flex items-center justify-center mb-4">
-                <Image src="/Logo.png" alt="Empty" width={48} height={48} className="w-auto h-auto opacity-40 grayscale" />
+            <div className="bg-card rounded-[20px] border border-border px-6 py-16 sm:px-8 sm:py-20 flex flex-col items-center justify-center text-center shadow-sm">
+              <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
+                <ThemeImage 
+                  lightSrc="/Logo.png" 
+                  darkSrc="/Logo-darkmode.png" 
+                  alt="Empty" 
+                  width={48} 
+                  height={48} 
+                  className="w-auto h-auto opacity-40 grayscale" 
+                />
               </div>
-              <p className="text-[17px] font-medium text-[#111111] mb-1.5">GG Gaming Adick Adick!!!</p>
-              <p className="text-[14px] text-[#888888] max-w-xs leading-relaxed">
+              <p className="text-[17px] font-medium text-foreground mb-1.5">GG Gaming Adick Adick!!!</p>
+              <p className="text-[14px] text-muted-foreground max-w-xs leading-relaxed">
                 {total > 0 ? "Kamu telah menyelesaikan semua tugas aktif. Waktunya bersantai." : "Belum ada tugas kuliah aktif yang dibuat."}
               </p>
             </div>
@@ -129,8 +150,9 @@ export default async function DashboardPage() {
               const c = categoryLabel[task.category] ?? categoryLabel.mata_kuliah
               return (
                 <div
+                  key={task.id}
                   id={`task-row-${task.id}`}
-                  className={`group bg-white rounded-[16px] border px-4 sm:px-5 py-3.5 sm:py-4 flex gap-3 sm:gap-4 transition-all duration-200 shadow-[0_2px_8px_-4px_rgba(0,0,0,0.02)] border-[#F0F0F0] hover:border-[#E0E0E0] hover:shadow-[0_4px_16px_-4px_rgba(0,0,0,0.04)]`}
+                  className={`group bg-card rounded-[16px] border px-4 sm:px-5 py-3.5 sm:py-4 flex gap-3 sm:gap-4 transition-all duration-200 shadow-[0_2px_8px_-4px_rgba(0,0,0,0.02)] border-border hover:border-accent hover:shadow-[0_4px_16px_-4px_rgba(0,0,0,0.04)]`}
                 >
                   {/* Custom Checkbox */}
                   <div className="pt-0.5 shrink-0">
@@ -141,13 +163,13 @@ export default async function DashboardPage() {
                   <div className="flex-1 min-w-0 pr-4">
                     <label
                       htmlFor={task.id}
-                      className={`block text-[15px] leading-snug cursor-pointer mb-1 transition-colors text-[#111111] font-medium`}
+                      className={`block text-[15px] leading-snug cursor-pointer mb-1 transition-colors text-foreground font-medium`}
                     >
                       {task.title}
                     </label>
 
                     {task.description && (
-                      <p className={`text-[13px] leading-relaxed line-clamp-2 mt-1.5 mb-3 text-[#777777]`}>
+                      <p className={`text-[13px] leading-relaxed line-clamp-2 mt-1.5 mb-3 text-muted-foreground`}>
                         {task.description}
                       </p>
                     )}
@@ -170,8 +192,8 @@ export default async function DashboardPage() {
 
                       {/* Deadline Badge */}
                       {task.due_date && !isNaN(new Date(task.due_date).getTime()) && (
-                        <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#777777] bg-[#F5F5F5] px-2 py-0.5 rounded-full border border-[#EAEAEA]">
-                          <Calendar className="w-3 h-3 text-[#A0A0A0]" strokeWidth={2.5} />
+                        <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground bg-muted px-2 py-0.5 rounded-full border border-border">
+                          <Calendar className="w-3 h-3 text-muted-foreground/60" strokeWidth={2.5} />
                           {new Date(task.due_date).toLocaleDateString('id-ID', {
                             day: 'numeric',
                             month: 'short',

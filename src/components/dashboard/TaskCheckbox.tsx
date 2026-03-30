@@ -35,15 +35,15 @@ export default function TaskCheckbox({
       disabled={isPending}
       className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200
         ${optimisticCompleted
-          ? 'bg-[#111111] border-[#111111]'
-          : 'bg-white border-[#C7C7CC] hover:border-[#111111]'
+          ? 'bg-foreground border-foreground'
+          : 'bg-background border-muted-foreground/30 hover:border-foreground'
         }
         ${isPending ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer active:scale-95'}
       `}
     >
       {isCompleted && (
         <svg
-          className="w-3 h-3 text-white"
+          className="w-3 h-3 text-background"
           viewBox="0 0 12 10"
           fill="none"
           stroke="currentColor"

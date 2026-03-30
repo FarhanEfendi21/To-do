@@ -2,6 +2,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { signup } from '@/lib/actions/auth'
 import { Input } from '@/components/ui/input'
+import { ModeToggle } from '@/components/ModeToggle'
+import { ThemeImage } from '@/components/ui/ThemeImage'
 
 export default async function RegisterPage({
   searchParams,
@@ -11,17 +13,28 @@ export default async function RegisterPage({
   const params = await searchParams
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F2F2F7] items-center justify-center px-4 sm:px-6 py-12">
+    <div className="flex flex-col min-h-screen bg-secondary items-center justify-center px-4 sm:px-6 py-12 relative">
+      <div className="absolute top-4 right-4 sm:top-8 sm:right-8">
+        <ModeToggle />
+      </div>
 
       {/* Card */}
-      <div className="w-full max-w-sm bg-white rounded-[20px] border border-[#E5E5EA] shadow-sm overflow-hidden">
+      <div className="w-full max-w-sm bg-card rounded-[20px] border border-border shadow-sm overflow-hidden">
 
-        <div className="flex flex-col items-center pt-8 sm:pt-10 pb-6 sm:pb-8 px-6 sm:px-8 border-b border-[#E5E5EA]">
-          <Image src="/Logo.png" alt="Logo" width={88} height={88} className="object-contain drop-shadow-sm" priority />
-          <h1 className="text-[20px] font-bold text-[#1C1C1E] tracking-tight">
+        <div className="flex flex-col items-center pt-8 sm:pt-10 pb-6 sm:pb-8 px-6 sm:px-8 border-b border-border">
+          <ThemeImage 
+            lightSrc="/Logo.png" 
+            darkSrc="/Logo-darkmode.png" 
+            alt="Logo" 
+            width={88} 
+            height={88} 
+            className="object-contain drop-shadow-sm" 
+            priority 
+          />
+          <h1 className="text-[20px] font-bold text-foreground tracking-tight">
             MariMenugas
           </h1>
-          <p className="text-sm text-[#8E8E93] mt-1 text-center">
+          <p className="text-sm text-muted-foreground mt-1 text-center">
             Daftar untuk mulai mengelola tugasmu
           </p>
         </div>
@@ -30,7 +43,7 @@ export default async function RegisterPage({
         <form action={signup} className="flex flex-col px-6 sm:px-8 py-6 sm:py-8 gap-4">
           {/* Error message */}
           {params?.message && (
-            <div className="bg-red-50 border border-red-100 text-red-600 text-sm px-4 py-3 rounded-[10px] text-center">
+            <div className="bg-destructive/10 border border-destructive/20 text-destructive text-sm px-4 py-3 rounded-[10px] text-center">
               {params.message}
             </div>
           )}
@@ -38,7 +51,7 @@ export default async function RegisterPage({
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="name"
-              className="text-xs font-semibold text-[#1C1C1E] uppercase tracking-wider"
+              className="text-xs font-semibold text-foreground uppercase tracking-wider"
             >
               Nama
             </label>
@@ -48,14 +61,14 @@ export default async function RegisterPage({
               type="text"
               placeholder="John Doe"
               required
-              className="h-11 rounded-[10px] border-[#E5E5EA] bg-[#F2F2F7] text-[#1C1C1E] placeholder:text-[#C7C7CC] text-sm focus-visible:ring-[#007AFF] focus-visible:ring-2 focus-visible:border-transparent"
+              className="h-11 rounded-[10px] border-border bg-secondary text-foreground placeholder:text-muted-foreground/50 text-sm focus-visible:ring-primary focus-visible:ring-2 focus-visible:border-transparent"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="email"
-              className="text-xs font-semibold text-[#1C1C1E] uppercase tracking-wider"
+              className="text-xs font-semibold text-foreground uppercase tracking-wider"
             >
               Email
             </label>
@@ -65,14 +78,14 @@ export default async function RegisterPage({
               type="email"
               placeholder="user@gmail.com"
               required
-              className="h-11 rounded-[10px] border-[#E5E5EA] bg-[#F2F2F7] text-[#1C1C1E] placeholder:text-[#C7C7CC] text-sm focus-visible:ring-[#007AFF] focus-visible:ring-2 focus-visible:border-transparent"
+              className="h-11 rounded-[10px] border-border bg-secondary text-foreground placeholder:text-muted-foreground/50 text-sm focus-visible:ring-primary focus-visible:ring-2 focus-visible:border-transparent"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="password"
-              className="text-xs font-semibold text-[#1C1C1E] uppercase tracking-wider"
+              className="text-xs font-semibold text-foreground uppercase tracking-wider"
             >
               Password
             </label>
@@ -82,7 +95,7 @@ export default async function RegisterPage({
               type="password"
               placeholder="min. 8 karakter"
               required
-              className="h-11 rounded-[10px] border-[#E5E5EA] bg-[#F2F2F7] text-[#1C1C1E] placeholder:text-[#C7C7CC] text-sm focus-visible:ring-[#007AFF] focus-visible:ring-2 focus-visible:border-transparent"
+              className="h-11 rounded-[10px] border-border bg-secondary text-foreground placeholder:text-muted-foreground/50 text-sm focus-visible:ring-primary focus-visible:ring-2 focus-visible:border-transparent"
             />
           </div>
 
@@ -90,16 +103,16 @@ export default async function RegisterPage({
           <div className="flex flex-col gap-2.5 pt-2">
             <button
               type="submit"
-              className="w-full h-12 rounded-[12px] bg-[#1C1C1E] text-white text-sm font-semibold hover:bg-black active:scale-[0.98] transition-all shadow-sm"
+              className="w-full h-12 rounded-[12px] bg-foreground text-background text-sm font-semibold hover:opacity-90 active:scale-[0.98] transition-all shadow-sm"
             >
               Daftar Sekarang
             </button>
             <div className="text-center mt-2">
               <Link
                 href="/login"
-                className="text-sm font-medium text-[#8E8E93] hover:text-[#007AFF] transition-colors"
+                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
               >
-                Sudah punya akun? <span className="text-[#007AFF]">Masuk</span>
+                Sudah punya akun? <span className="text-primary">Masuk</span>
               </Link>
             </div>
           </div>

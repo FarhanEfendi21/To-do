@@ -9,7 +9,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   weight: ["300", "400", "500", "600", "700"],
 });
 
-const APP_NAME = "KuliahTasks";
+const APP_NAME = "MariMenugas";
 const APP_DESCRIPTION = "To-Do List Tugas Kuliah — Kelola tugas dengan mudah dan terorganisir";
 
 export const metadata: Metadata = {
@@ -35,12 +35,17 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#1c1c1e" },
+  ],
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
 };
+
+import { ThemeProvider } from "@/components/theme-provider";
 
 export default function RootLayout({
   children,
@@ -48,10 +53,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={`${plusJakartaSans.variable} h-full`}>
-      <body className="min-h-full flex flex-col font-[var(--font-plus-jakarta)] antialiased">
-        <SplashScreen />
-        {children}
+    <html lang="id" className={`${plusJakartaSans.variable} h-full`} suppressHydrationWarning>
+      <body className="min-h-full flex flex-col font-[var(--font-plus-jakarta)] antialiased bg-background text-foreground">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SplashScreen />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

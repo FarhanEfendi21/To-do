@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Image from 'next/image'
+import { ThemeImage } from './ThemeImage'
 
 export default function SplashScreen() {
   const [isVisible, setIsVisible] = useState(true)
@@ -18,15 +18,15 @@ export default function SplashScreen() {
 
     sessionStorage.setItem('hasSeenSplash', 'true')
 
-    // Mulai memudar setelah 1.2 detik
+    // Mulai memudar setelah 0.8 detik (sebelumnya 1.2 detik)
     const timer1 = setTimeout(() => {
       setIsFading(true)
-    }, 1200)
+    }, 800)
 
-    // Hapus dari DOM sepenuhnya setelah animasi selesai
+    // Hapus dari DOM sepenuhnya setelah 1.1 detik (sebelumnya 1.7 detik)
     const timer2 = setTimeout(() => {
       setIsVisible(false)
-    }, 1700)
+    }, 1100)
 
     return () => {
       clearTimeout(timer1)
@@ -38,23 +38,25 @@ export default function SplashScreen() {
 
   return (
     <div
-      className={`fixed inset-0 z-[999] bg-[#FAFAFA] flex flex-col items-center justify-center transition-opacity duration-500 ease-in-out ${isFading ? 'opacity-0 pointer-events-none' : 'opacity-100'
-        }`}
+      className={`fixed inset-0 z-[999] bg-background flex flex-col items-center justify-center transition-opacity duration-300 ease-in-out ${
+        isFading ? 'opacity-0 pointer-events-none' : 'opacity-100'
+      }`}
     >
-      <div className="flex flex-col items-center animate-in zoom-in-95 fade-in-0 duration-700 ease-out">
-        <Image
-          src="/Logo.png"
+      <div className="flex flex-col items-center animate-in zoom-in-95 fade-in-0 duration-500 ease-out">
+        <ThemeImage
+          lightSrc="/Logo.png"
+          darkSrc="/Logo-darkmode.png"
           alt="Logo"
-          width={104}
-          height={104}
-          className="object-contain drop-shadow-md mb-5"
+          width={92}
+          height={92}
+          className="object-contain drop-shadow-sm mb-4"
           priority
         />
-        <h1 className="text-2xl font-bold tracking-tight text-[#111111]">
+        <h1 className="text-xl font-bold tracking-tight text-foreground">
           MariMenugas
         </h1>
-        <div className="w-12 h-1 bg-[#111111] rounded-full mt-4 bg-opacity-10 overflow-hidden relative">
-          <div className="absolute top-0 left-0 h-full w-full bg-[#111111] rounded-full animate-[progress_1.2s_ease-in-out_forwards]" />
+        <div className="w-10 h-1 bg-foreground/10 rounded-full mt-3 overflow-hidden relative">
+          <div className="absolute top-0 left-0 h-full w-full bg-foreground rounded-full animate-[progress_0.8s_ease-in-out_forwards]" />
         </div>
       </div>
     </div>
